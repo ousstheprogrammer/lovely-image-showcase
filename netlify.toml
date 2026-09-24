@@ -1,0 +1,14 @@
+# TanStack Start builds through nitro, which auto-detects the Netlify build
+# environment and uses its `netlify` preset. That preset writes:
+#   - client/static assets -> dist/
+#   - the SSR handler       -> .netlify/functions-internal/server/
+# so the publish directory must be `dist` (NOT `dist/client`, which is the
+# Cloudflare/Lovable-sandbox layout configured in vite.config.ts).
+[build]
+  command = "bun run build"
+  publish = "dist"
+
+[build.environment]
+  # Pin the preset so the build never falls back to the cloudflare-module
+  # default that @lovable.dev/vite-tanstack-config sets for the sandbox.
+  NITRO_PRESET = "netlify"
